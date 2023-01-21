@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Registration Form</title>
+	<link rel="stylesheet" href="formmarker.css">
+</head>
+<body>
+
+<div class="wrapper">
+    <div class="title">
+      Ajouter Marker
+    </div>
+    <div class="form" id="myForm">
+       <div class="inputfield">
+          <label>Description</label>
+          <input type="text" class="input" id="description" value="descriptions">
+       </div>  
+        <div class="inputfield">
+          <label>Latitude</label>
+          <input type="text" class="input" id="latitude" value="latitudes">
+       </div>  
+       <div class="inputfield">
+          <label>Longitude</label>
+          <input type="text" class="input" id="longitude" value="longitudes">
+       </div>  
+      <div class="inputfield terms">
+          <label class="check">
+            <input type="checkbox">
+            <span class="checkmark"></span>
+          </label>
+          <p>Agreed to terms and conditions</p>
+       </div> 
+      <div class="inputfield">
+        <input type="submit" value="marker" class="btn">
+      </div>
+    </div>
+</div>	
+
+<script>
+    const myForm = document.querySelector('myForm');
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+  var markerAdd = myForm;
+  var raw = JSON.stringify({
+    "description": document.querySelector("description").v,
+    "latitude": document.querySelector("latitude").nodeValue,
+    "longitude": document.querySelector("longitude").nodeValue,
+});
+
+  var requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    body: raw,
+    redirect: 'follow'
+};
+
+  fetch("http://localhost:9000/markers", requestOptions)
+    .then(response => response.text())
+    .then(result => console.log(result))
+    .catch(error => console.log('error', error));
+    // myForm.addEventListener("submit", function (e) {
+    //   e.preventDefault();
+
+    //   const formData = new FormData(this);
+    //   const searchParams = new URLSearchParams(formData);
+
+    //   for (const pair of formData) {
+    //     searchParams.append(pair[0], pair[1]);
+    //   }
+
+    //   fetch('http://localhost:9000/markers', {
+    //       method:'POST',
+    //       body: searchParams,
+    //   })
+    //       .then(function (response) {
+    //         return response.text();
+    //       }) 
+    //       .then(function (text) {
+    //         console.log(text);
+    //       }).catch(function(error) {
+    //         console.error(error);
+    //       })
+  
+    // })
+</script>
+	
+</body>
+</html>
